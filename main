@@ -1,0 +1,134 @@
+import time
+
+def display_welcome():
+    print("=" * 50)
+    print("          ТЕСТ НА IQ")
+    print("=" * 50)
+    print("\nВас ждёт 10 вопросов разного уровня сложности.")
+    print("За каждый правильный ответ вы получаете 1 балл.")
+    print("Отвечайте быстро и точно!\n")
+    input("Нажмите Enter, чтобы начать тест...")
+    print("\n" + "-" * 50)
+
+def ask_question(question, options, correct_answer):
+    print(f"\n{question}")
+    for i, option in enumerate(options, 1):
+        print(f"{i}. {option}")
+    
+    while True:
+        try:
+            choice = int(input("Ваш ответ (номер варианта): "))
+            if 1 <= choice <= len(options):
+                return choice == correct_answer
+            else:
+                print("Пожалуйста, введите номер варианта от 1 до", len(options))
+        except ValueError:
+            print("Пожалуйста, введите число.")
+
+def calculate_iq(score):
+    iq_scale = {
+        0: "Очень низкий уровень",
+        1: "Очень низкий уровень",
+        2: "Очень низкий уровень",
+        3: "Низкий уровень",
+        4: "Ниже среднего",
+        5: "Средний уровень",
+        6: "Средний уровень",
+        7: "Выше среднего",
+        8: "Высокий уровень",
+        9: "Очень высокий уровень",
+        10: "Гениальный уровень"
+    }
+    return iq_scale.get(score, "Неопределённый уровень")
+
+def main():
+    # Вопросы и ответы
+    questions = [
+        {
+            "question": "Продолжите последовательность: 2, 4, 8, 16, ?",
+            "options": ["24", "32", "28", "36"],
+            "correct": 2
+        },
+        {
+            "question": "Если все кошки — животные, а некоторые животные — пушистые, значит ли это, что некоторые кошки пушистые?",
+            "options": ["Да", "Нет", "Невозможно определить"],
+            "correct": 3
+        },
+        {
+            "question": "Какое число лишнее: 3, 7, 11, 15, 19?",
+            "options": ["3", "7", "11", "15", "19"],
+            "correct": 4
+        },
+        {
+            "question": "Решите: $(15 - 3) \times (8 \div 4) = ?$",
+            "options": ["18", "24", "30", "36"],
+            "correct": 2
+        },
+        {
+            "question": "Что общего между яблоком и апельсином?",
+            "options": ["Они красные", "Они фрукты", "Они растут на деревьях", "У них есть косточки"],
+            "correct": 2
+        },
+        {
+            "question": "Если A больше B, а B больше C, то A ___ C?",
+            "options": ["меньше", "больше", "равно", "невозможно определить"],
+            "correct": 2
+        },
+        {
+            "question": "Сколько месяцев в году имеют 28 дней?",
+            "options": ["1", "2", "6", "Все"],
+            "correct": 4
+        },
+        {
+            "question": "Продолжите последовательность: A, C, E, G, ?",
+            "options": ["H", "I", "J", "K"],
+            "correct": 2
+        },
+        {
+            "question": "Если 3 курицы за 3 дня несут 3 яйца, сколько яиц снесут 12 куриц за 12 дней?",
+            "options": ["12", "24", "36", "48"],
+            "correct": 4
+        },
+        {
+            "question": "Какой угол образуют стрелки часов в 3:15?",
+            "options": ["0°", "7,5°", "15°", "30°"],
+            "correct": 2
+        }
+    ]
+    
+    # Запуск теста
+    display_welcome()
+    score = 0
+    start_time = time.time()
+    
+    for i, q in enumerate(questions, 1):
+        print(f"\nВопрос {i} из 10:")
+        if ask_question(q["question"], q["options"], q["correct"]):
+            print("✓ Правильно!")
+            score += 1
+        else:
+            correct_text = q["options"][q["correct"] - 1]
+            print(f"✗ Неправильно! Правильный ответ: {correct_text}")
+    
+    end_time = time.time()
+    test_duration = end_time - start_time
+    
+    # Результаты
+    print("\n" + "=" * 50)
+    print("РЕЗУЛЬТАТЫ ТЕСТА")
+    print("=" * 50)
+    print(f"Правильных ответов: {score} из 10")
+    print(f"Время прохождения: {test_duration:.1f} секунд")
+    print(f"Ваш уровень IQ: {calculate_iq(score)}")
+    
+    if score == 10:
+        print("Поздравляем! Идеальный результат!")
+    elif score >= 7:
+        print("Отличный результат! Вы обладаете высоким уровнем интеллекта.")
+    elif score >= 5:
+        print("Хороший результат! У вас средний уровень интеллекта.")
+    else:
+        print("Не расстраивайтесь! Можно попробовать ещё раз.")
+
+if __name__ == "__main__":
+    main()
